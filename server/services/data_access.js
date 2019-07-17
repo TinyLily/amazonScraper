@@ -1,5 +1,4 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
  
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -9,17 +8,17 @@ const dbname = 'products_db';
 
 const get = async (asin) => {
     try {
-    const client = await MongoClient.connect(url, { useNewUrlParser: true });
-    const db = client.db(dbname);
-    const result =  await db
-        .collection('products')
-        .findOne({asin: asin});
+        const client = await MongoClient.connect(url, { useNewUrlParser: true });
+        const db = client.db(dbname);
+        const result =  await db
+            .collection('products')
+            .findOne({asin: asin});
         console.log(result);
         client.close();
-    return result;
+       return result;
     } catch (err) {
         console.log(err);
-        return err;
+        throw err;
     }
 };
 
@@ -30,7 +29,7 @@ const create = async (product) => {
         const result =  await db
         .collection('products')
         .insertOne(product);
-        console.log(result);
+        // console.log(result);
         client.close();
         return result;
     } catch (err) {
@@ -38,6 +37,22 @@ const create = async (product) => {
         return err;
     }
 };
+const deleteProd = async(asin) => {
+    try {
+        const client = await MongoClient.connect(url, { useNewUrlParser: true });
+        const db = client.db(dbname);
+        const result =  await db
+        .collection('products')
+        .deleteOne({asin: asin});
+        // console.log(result);
+        client.close();
+        return result;
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+// get('B003N9');
 
 module.exports = {
     get,

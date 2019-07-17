@@ -2,8 +2,6 @@ const axios = require('axios');
 const htmlparser = require("htmlparser2");
 const cheerio = require('cheerio');
 
-const {get, create} = require('./data_access');
-
 const SELECTOR = {
     TITLE: '#productTitle',
     SALESRANK: '#SalesRank',
@@ -50,29 +48,8 @@ const getProductInfoFromAmazon = async (asin) => {
     }
 };
 
-const getProductInfo = async (asin) => {
-    if(!asin) {
-        return;
-    }
-    try {
-        const productInfoFromDB = await get(asin);
-        if(!productInfoFromDB) {
-            const productInfoFromAMZ = await getProductInfoFromAmazon(asin);
-            console.log(productInfoFromAMZ);
-            if(productInfoFromAMZ) {
-                const result = await create(productInfoFromAMZ);
-                console.log(result);
-            }   
-            return  productInfoFromAMZ;  
-        }
-        return productInfoFromDB;
-    } catch (err) {
-        console.log(err);
-    }
-};
 // getProductInfo('B003N9M6YI');
 // // getProductInfoFromAmazon('B003N9M6YI');
 module.exports = {
-    getProductInfoFromAmazon,
-    getProductInfo
+    getProductInfoFromAmazon
 }

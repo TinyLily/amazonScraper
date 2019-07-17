@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getProductInfoFromAmazon } = require('../services/product_scraper');
+const { getProductInfo } = require('../services');
 
 /* GET users listing. */
 router.get('/', async (req, res, next) => {
-    const product = await getProductInfoFromAmazon('B003N9M6YI');
+    console.log(req.query);
+    const {asin} = req.query;
+    const product = await getProductInfo(asin);
     res.json(product);
 });
 

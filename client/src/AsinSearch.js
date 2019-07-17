@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { fade, withStyles, makeStyles, createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider, mergeClasses } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider} from '@material-ui/styles';
+import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
@@ -8,20 +9,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import { cpus } from 'os';
 import { green } from '@material-ui/core/colors';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    margin: {
-        margin: theme.spacing(1),
-    },
-}));
-
+import axios from 'axios';
 
 const theme = createMuiTheme({
     palette: {
@@ -32,6 +25,19 @@ const theme = createMuiTheme({
 const style = {
     button: {
         margin: '20px'
+    },
+    root: {
+        width: '90%',
+        position: 'relative',
+        right: '10px',
+        overflowX: 'auto',
+    },
+    table: {
+        minWidth: 650,
+    },
+    appbar: {
+        top: '20px',
+        width: '100%',
     }
 };
 
@@ -50,12 +56,15 @@ class AsinSearch extends Component {
     }
 
     _handleSearch = async (e, value) => {
-        console.log(this.props);
-        const res = await fetch('./product');
-        const product = await res.json();
-        console.log('@@@', product);
-        this.setState(product);
-        console.log(this.state);
+        const {input} = this.state;
+        const res = await axios.get(`./product?asin=${input}`);
+        if (!res.data) {
+            this.setState({asin: 'NOT FOUND'});
+        } else {
+            const product = res.data;
+            delete product._id;
+            this.setState(product);
+        }
     };
 
     _handleChange = (e) => {
@@ -64,9 +73,14 @@ class AsinSearch extends Component {
     }
 
     render() {
-        // const classes = useStyles();
         return (
-            <div>
+            <div style={style.appbar}>
+                <AppBar position="static" color="default">
+                <Toolbar>
+                <Typography variant="h6" color="inherit">
+            Amazon Scraper
+          </Typography>
+                </Toolbar>
             <div>
                 <ThemeProvider theme={theme}>
                     <TextField label="ASIN" variant="outlined"
@@ -78,8 +92,8 @@ class AsinSearch extends Component {
             </div>
 
             <div>
-                <Paper>
-                    <Table >
+                <Paper style={style.root}>
+                    <Table style={style.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell>ASIN</TableCell>
@@ -104,6 +118,7 @@ class AsinSearch extends Component {
                     </Table>
                 </Paper>
             </div>
+            </AppBar>
             </div >
         )
     }
