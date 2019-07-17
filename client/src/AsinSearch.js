@@ -48,7 +48,8 @@ class AsinSearch extends Component {
             asin: '',
             rank: '',
             dimensions: '',
-            category: ''
+            category: '',
+            name: ''
         };
 
         this._handleSearch = this._handleSearch.bind(this);
@@ -59,7 +60,7 @@ class AsinSearch extends Component {
         const {input} = this.state;
         const res = await axios.get(`./product?asin=${input}`);
         if (!res.data) {
-            this.setState({asin: 'NOT FOUND'});
+            this.setState({asin: 'NOT FOUND', rank: '', dimensions: '', name: '', category: ''});
         } else {
             const product = res.data;
             delete product._id;

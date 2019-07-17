@@ -18,7 +18,7 @@ npm i
 cd client
 npm i
 ```
-###Start
+### Start
 - Run Database
 ```
 mongod --dbpath=./db
@@ -35,7 +35,7 @@ npm start
 ```
 It will automatelly open a page in browser, if not go to http://localhost:3000/.
 
-##Running the tests
+## Running the tests
 I only writed unit test for backend. Therefore, go to the server floder and run 
 ```
 npm test
