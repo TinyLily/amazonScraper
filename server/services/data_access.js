@@ -29,7 +29,6 @@ const create = async (product) => {
         const result =  await db
         .collection('products')
         .insertOne(product);
-        // console.log(result);
         client.close();
         return result;
     } catch (err) {
@@ -44,7 +43,6 @@ const deleteProd = async(asin) => {
         const result =  await db
         .collection('products')
         .deleteOne({asin: asin});
-        // console.log(result);
         client.close();
         return result;
     } catch (err) {
@@ -52,7 +50,6 @@ const deleteProd = async(asin) => {
         return err;
     }
 }
-// get('B003N9');
 
 module.exports = {
     get,
