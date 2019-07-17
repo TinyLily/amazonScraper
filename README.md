@@ -4,7 +4,7 @@ This is a nodejs backend that scrapes amazon product and product pages. If the r
 ## Getting Started
 
 ### Requirements
-- Node 8.10+
+- Node 8.11
 
 ### Prerequisites
 - [Install MongoDB](https://docs.mongodb.com/manual/installation/) to your machine 
